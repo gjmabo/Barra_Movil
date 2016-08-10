@@ -39,13 +39,13 @@ section .data
 	lineahoriz_sup: db 27,'[1;1f ','*'
 	lineahoriz_sup_tam: equ $-lineahoriz_sup
 
-	lineahoriz_inf: db 27,"[34;1f ","*"
+	lineahoriz_inf: db 27,'[34;1f ','*'
 	lineahoriz_inf_tam: equ $-lineahoriz_inf
 
-	lineahoriz: db "="
+	lineahoriz: db '='
 	lineahoriz_tam: equ $-lineahoriz
 
-	lineavert_izq: db 27,"[2;1f ","||"
+	lineavert_izq: db 27,'[2;1f ','||'
 	lineavert_izq_tam: equ $-lineavert_izq
 
 	lineavert_der: db 27,"[2;32f ","||"
