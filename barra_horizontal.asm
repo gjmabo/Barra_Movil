@@ -33,10 +33,10 @@ section .data
 
 
 ;-----------------------------------Constantes---------------------------------
-	borrar: db 27,"[2J"
+	borrar: db 27,'[2J'
 	borrar_tam: equ $-borrar
 
-	lineahoriz_sup: db 27,"[1;1f ","*"
+	lineahoriz_sup: db 27,'[1;1f ','*'
 	lineahoriz_sup_tam: equ $-lineahoriz_sup
 
 	lineahoriz_inf: db 27,"[34;1f ","*"
