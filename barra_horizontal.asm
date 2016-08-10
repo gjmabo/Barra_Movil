@@ -68,6 +68,9 @@ section .data
 
 	barra_horiz: db "o===o"
 	barra_horiz_tam: equ $-barra_horiz
+	
+	dato_ent: db ''
+	dato_ent_tam: equ $-dato_ent
 
 ;----------------------------------Segmento de Codigo---------------------------
 section .text
@@ -204,34 +207,23 @@ ret					;Final del procedimiento 'Marco'
 
 Proc_GetKey:				;Subrutina para obtener el codigo de la
 					;tecla presionada (si se presiono alguna)
-	jmp CheckForKey
-CheckForKey:
-	mov ah, 0x01			;pregunta el estado del buffer del teclado, si hay o no una tecla lista
-	int 0x16			;interrupciones de uso de teclado
-	jnz KeyReady			;si la hay, pasa a leer cual tecla es
-	jz ContinueMain			;si no la hay, sigue con el programa principal
-
-KeyReady:
-	mov ah, 0x00			;lee el buffer del teclado
-	int 0x16			;interrupciones de uso del teclado
-;	mov r10, rax			;mueve al registro r10 el resultado de la interrupcion (puede no ser
-					;necesario, por eso se deja como comentario)
-	;En este punto el registro 'al' ya contiene el valor de la tecla
-	jmp ContinueMain		;salta al programa principal
-
-ContinueMain:
+	mov rax, 0				;rax = "sys_read"
+	mov rdi, 0				;rdi = 0 (standard input = teclado)
+	mov rsi, dato_ent			;rsi = dir de memoria donde se guarda el dato de entrada
+	mov rdx, 1				;rdx = 1 =>  cuantos eventos o teclazos capturar
+	syscall
 ret					;Final del procedimiento 'Proc_GetKey'
 ;-----------------------------------------------------
 
 Proc_DecoKey:				;Procedimiento para determinar que tecla se obtuvo
 					;se debe ejecutar inmediatamente despues de Proc_GetKey si se obtuvo el valor de una tecla
-	cmp al, 99
+	cmp dato_ent, 99
 	jz tecla_c			;se mueve hacia la izquierda
 
-	cmp al, 122
+	cmp dato_ent, 122
 	jz tecla_z			;se mueve hacia la derecha
 
-	cmp al, 32			;sale del ciclo '_ciclo_juego';32 => space
+	cmp dato_ent, 32			;sale del ciclo '_ciclo_juego';32 => space
 	jz tecla_space
 
 	jnz Continue
